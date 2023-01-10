@@ -1,0 +1,25 @@
+using System;
+using Microsoft.Win32;
+using System.IO;
+
+
+RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation");
+string manufactur = key.GetValue("Manufacturer").ToString();
+key.Close();
+
+RegistryKey manufactur_key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+string assembling = manufactur_key.GetValue("CurrentBuild").ToString();
+string version = manufactur_key.GetValue("DisplayVersion").ToString();
+manufactur_key.Close();
+
+if (manufactur == null) 
+{
+    string result = ("Windows_10_Pro_" + assembling + "_" + version);
+    System.IO.File.Create("C:\\" + result + "_oem.txt");
+    
+}
+else if (manufactur.Length > 0)
+{
+    string result = ("Windows_10_Pro_" + assembling + "_" + version);
+    System.IO.File.Create("C:\\AQSTest\\" + result + "_doem.txt");
+}
